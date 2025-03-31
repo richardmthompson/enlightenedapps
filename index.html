@@ -14,8 +14,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      min-height: 100vh;
       text-align: center;
     }
 
@@ -43,10 +41,11 @@
       box-shadow: 0 0 20px #00ffcc33;
       font-size: 1rem;
       max-width: 90%;
+      margin-bottom: 2rem;
     }
 
     footer {
-      margin-top: 3rem;
+      margin: 3rem 0 1rem;
       font-size: 0.8rem;
       opacity: 0.6;
     }
@@ -56,28 +55,115 @@
       text-decoration: underline;
     }
 
+    nav {
+      margin: 1rem 0 2rem;
+    }
+
+    nav a {
+      margin: 0 1rem;
+      text-decoration: none;
+      color: #00ffcc;
+      font-weight: bold;
+    }
+
     .logo {
       width: 300px;
       max-width: 100%;
       height: auto;
-  }
+    }
+
+    .cta-buttons {
+      margin: 1.5rem 0;
+    }
+
+    .cta-buttons a {
+      display: inline-block;
+      margin: 0 1rem;
+      padding: 0.75rem 1.5rem;
+      border: 2px solid #00ffcc;
+      border-radius: 4px;
+      text-decoration: none;
+      color: #00ffcc;
+      font-weight: bold;
+      box-shadow: 0 0 10px #00ffcc44;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .cta-buttons a:hover {
+      background: #00ffcc;
+      color: #111;
+    }
+
+    section {
+      padding: 3rem 1rem;
+      max-width: 700px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #00ffcc44;
+      margin: 2rem auto;
+      width: 60%;
+    }
 
   </style>
 </head>
 <body>
 
   <header>
-
     <img src="images/EApps-Logo.jpg" class="logo">
-
     <p>Next-gen Android + AI tools, with a design inspired by retro tech, powered by intelligent conversations.</p>
   </header>
 
   <div class="terminal-box">
     <p><strong>$</strong> We’re building voice-first software assistants that think alongside you.<br>
     <strong>$</strong> Designed for productivity, creativity, and co-working with AI.<br>
-    <strong>$</strong> Stay tuned for beta launches, prototypes, and vintage vibes.</p>
+    <strong>$</strong> Stay tuned for beta launches, prototypes, and retro vibes.</p>
   </div>
+
+  <nav>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+<section id="about">
+    <h2>About</h2>
+    <p>
+      We believe the next generation of applications will blend 
+      voice interaction, language models, and rich, intuitive visuals into one seamless experience. 
+    </p>
+    <p>
+      Our goal is to create software that doesn't just respond, but that communicates, anticipates your needs, initiates useful actions, and thinks alongside you.
+    </p>
+    <p>
+      Our tools combine coherent reasoning and mental models with the
+      generative power of transformer-based language models.
+      </p>
+  </div>
+
+  <hr>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <p><strong>Manifestor App</strong> – A minimal, voice-controlled app that helps you clarify and manifest your desires.<br>
+            <p> <i>Currently in Beta.</i>
+
+        <div class="cta-buttons">
+    <a href="" target="_blank">Join the Beta</a>
+    <a href="" target="_blank">Download Demo</a>
+  </div>
+
+    <p><strong>Voxplan</strong> – A voice controlled productivity app that helps you organise goal hierarchies, set time quotas for regular tasks, manage their scheduling, and track and reward you for time spent accomplishing things.<br>
+      <p> <i>Currently under development.</i>
+  </section>
+
+  <hr>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Want to collaborate or test our early builds?<br>Email us at <a href="mailto:hello@enlightenedapps.dev">hello@enlightenedapps.dev</a>.</p>
+  </section>
 
   <footer>
     <p>👾 <a href="https://enlightenedapps.dev" target="_blank">Enlightened Apps</a> — Code that *gets* you.</p>
