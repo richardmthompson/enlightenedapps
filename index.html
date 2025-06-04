@@ -30,6 +30,20 @@
       text-shadow: 2px 2px 0 #444;
     }
 
+    h1, h2, h3 {
+      color: #E8A533;
+    }
+
+
+    h2 {
+      text-shadow: 1px 1px 0 #000; /* optional: adds subtle depth */
+    }
+
+    .highlight-red {
+      color: #CF4420;
+      font-weight: bold;
+    }
+
     p {
       font-size: 1.2rem;
       max-width: 600px;
@@ -88,12 +102,18 @@
       text-align: center;
     }
 
-    nav a {
-      margin: 0 1rem;
-      text-decoration: none;
-      color: #00ffcc;
-      font-weight: bold;
-    }
+nav a {
+  margin: 0 1rem;
+  text-decoration: none;
+  color: #E8A533;
+  font-weight: bold;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #00ffcc; /* subtle neon on hover */
+}
 
     .logo {
       width: 300px;
@@ -204,11 +224,7 @@
       </p>
 
       <p>
-        Voice Assistants you can speak with.
-      </p>
-    
-      <p>
-        Conversational A.I. that understands your intentions.
+        <span class="highlight-red">Conversational A.I. that understands you.</span>
       </p>
 
       <p>
@@ -228,7 +244,8 @@
         </p>
         
         <p>
-        The next Operating System will be LANGUAGE.  It will make our interactions with A.I. tools seamless.  We're interested in how to build Real Intelligence that uses and sits behind the speak-and-listen interface.
+        <span class="highlight-red">The next Operating System will be LANGUAGE.</span><br>
+          It will make our interactions with A.I. tools seamless.  We're interested in how to build Real Intelligence that uses and sits behind the speak-and-listen interface.
         </p>
          
          <p>Stay tuned for beta launches and prototypes.
@@ -240,20 +257,26 @@
 
     <section id="projects">
       <h2><strong>$</strong> Projects</h2>
-      <p><strong>>>> Vox Manifestor</strong><br>
 
-        A minimal, voice-controlled app that helps you clarify and manifest your desires.<br>
-              <p> <i>Currently in Beta.</i>
+    <div class="terminal-box">
+      <p class="highlight-red"><strong>>>> Vox Manifestor</strong></p>
+
+        <p>A minimal, voice-controlled app that helps you clarify and manifest your desires.</p>
+              
+        <i>Currently in Beta Testing Phase.</i>
 
       <div class="cta-buttons">
         <a href="" target="_blank">Join the Beta</a>
         <a href="" target="_blank">Download Demo</a>
       </div>
 
-      <br><br>
-      <p><strong>>>> Vox Plan</strong><br>
-        A voice controlled productivity app that helps you organise goal hierarchies, set time quotas for regular tasks, manage their scheduling, and track and reward you for time spent accomplishing things.<br>
-        <p> <i>Currently under development.</i>
+  </div>
+
+      <p class="highlight-red"><strong>>>> Vox Plan</strong></p>
+
+        <p>A voice controlled productivity app that helps you organise goal hierarchies, set time quotas for regular tasks, manage their scheduling, and track and reward you for time spent accomplishing things.</p>
+
+        <i>Currently under development.</i>
 
     </section>
 
@@ -262,6 +285,7 @@
     <section id="contact">
       <h2>Contact</h2>
       <p>Want to collaborate or test our early builds?<br>Email us at <a href="mailto:hello@enlightenedapps.dev">hello@enlightenedapps.dev</a>.</p>
+      <br><br>
     </section>
 
   </main>
