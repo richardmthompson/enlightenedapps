@@ -8,15 +8,18 @@
     body {
       margin: 0;
       padding: 0;
+      min-height: 100vh;
+      width: 100vw;
       font-family: 'Courier New', monospace;
-      background: linear-gradient(135deg, #111, #222);
+      background: #111111;
       color: #00ffcc;
+    }
+    main {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
     }
-
     header {
       padding: 2rem;
     }
@@ -33,6 +36,31 @@
       margin-bottom: 1rem;
     }
 
+    .page-layout {
+      display: flex;
+      width: 100vw;
+      min-height: 100vh;
+      background: #111111; /* or keep this in <body> if preferred */
+    }
+
+    .pillar {
+      width: 100px;
+      background: #000;
+      margin: 0;
+      padding: 0;
+    }
+
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #00ffcc;
+    }
+
+
     .terminal-box {
       background: #000;
       padding: 1.5rem;
@@ -45,9 +73,9 @@
     }
 
     footer {
-      margin: 3rem 0 1rem;
+      margin: 0;
+      padding: 0;
       font-size: 0.8rem;
-      opacity: 0.6;
     }
 
     a {
@@ -57,6 +85,7 @@
 
     nav {
       margin: 1rem 0 2rem;
+      text-align: center;
     }
 
     nav a {
@@ -106,68 +135,143 @@
       width: 60%;
     }
 
+    .top-band {
+      width: 100vw;
+      background: #000;
+      padding: 0;
+      margin: 0;
+    }
+
+    .top-band header {
+      padding: 2rem 0; /* This controls vertical spacing under the logo */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .top-band {
+      border-bottom: 2px solid #00ffcc33;
+      border-top: 2px solid #00ffcc33;
+    }
+
+    .logo-footer {
+      width: 100vw;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0;
+      padding: 0;
+    }
+    .subheader {
+      margin-top: 1rem;
+    }
+
   </style>
 </head>
 <body>
+    <div class="top-band">
+      <header>
+        <img src="images/EApps-Logo.png" class="logo">
+      </header>
 
-  <header>
-    <img src="images/EApps-Logo.jpg" class="logo">
-    <p>Next-gen Android + AI tools, with a design inspired by retro tech, powered by intelligent conversations.</p>
-  </header>
+      <nav>
+      <a href="#vision">Vision</a>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <a href="https://richardmthompson.hashnode.dev/">Blog</a>
+    </nav>
 
-  <div class="terminal-box">
-    <p><strong>$</strong> We’re building voice-first software assistants that think alongside you.<br>
-    <strong>$</strong> Designed for productivity, creativity, and co-working with AI.<br>
-    <strong>$</strong> Stay tuned for beta launches, prototypes, and retro vibes.</p>
-  </div>
 
-  <nav>
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
-    <a href="https://richardmthompson.hashnode.dev/">Blog</a>
-  </nav>
+    </div>
 
-<section id="about">
-    <h2>About</h2>
-    <p>
-      We believe the next generation of applications will blend 
-      voice interaction, language models, and rich, intuitive visuals into one seamless experience. 
-    </p>
-    <p>
-      Our goal is to create software that doesn't just respond, but that communicates, anticipates your needs, initiates useful actions, and thinks alongside you.
-    </p>
-    <p>
-      Our tools combine coherent reasoning and mental models with the
-      generative power of transformer-based language models.
+    <div class="page-layout">
+    <div class="pillar"></div>
+
+    <main class="main-content">
+
+        <p><strong>></strong> Next-gen Android + AI tools,<br>
+        <strong>></strong> With a design inspired by retro tech,<br>
+        <strong>></strong> Powered by intelligent conversations.</p>
+
+        <section id="vision">
+    <div class="terminal-box">
+      <h2><strong>$</strong> Vision</h2>
+
+      <p>
+        We are Designing The Next Generation of Voice-First Interfaces.
       </p>
-  </div>
 
-  <hr>
+      <p>
+        Voice Assistants you can speak with.
+      </p>
+    
+      <p>
+        Conversational A.I. that understands your intentions.
+      </p>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <p><strong>Manifestor App</strong> – A minimal, voice-controlled app that helps you clarify and manifest your desires.<br>
-            <p> <i>Currently in Beta.</i>
-
-        <div class="cta-buttons">
-    <a href="" target="_blank">Join the Beta</a>
-    <a href="" target="_blank">Download Demo</a>
-  </div>
-
-    <p><strong>Voxplan</strong> – A voice controlled productivity app that helps you organise goal hierarchies, set time quotas for regular tasks, manage their scheduling, and track and reward you for time spent accomplishing things.<br>
-      <p> <i>Currently under development.</i>
+      <p>
+         Software that communicates, anticipates your needs, initiates useful actions, and thinks alongside you.
+      </p>
+    
+      <p>
+      Designed for productivity, creativity, and co-working with AI.
+    </p>
+    </div>
   </section>
 
-  <hr>
+  <section id="about">
+      <h2><strong>$</strong> About</h2>
+      <p>
+        Our tools combine coherent reasoning with memory and cognitive activity that don't just process data.  They think, using the generative power of transformer-based language models.
+        </p>
+        
+        <p>
+        The next Operating System will be LANGUAGE.  It will make our interactions with A.I. tools seamless.  We're interested in how to build Real Intelligence that uses and sits behind the speak-and-listen interface.
+        </p>
+         
+         <p>Stay tuned for beta launches and prototypes.
+         </p>
+        
+    </section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Want to collaborate or test our early builds?<br>Email us at <a href="mailto:hello@enlightenedapps.dev">hello@enlightenedapps.dev</a>.</p>
-  </section>
+    <hr>
+
+    <section id="projects">
+      <h2><strong>$</strong> Projects</h2>
+      <p><strong>>>> Vox Manifestor</strong><br>
+
+        A minimal, voice-controlled app that helps you clarify and manifest your desires.<br>
+              <p> <i>Currently in Beta.</i>
+
+      <div class="cta-buttons">
+        <a href="" target="_blank">Join the Beta</a>
+        <a href="" target="_blank">Download Demo</a>
+      </div>
+
+      <br><br>
+      <p><strong>>>> Vox Plan</strong><br>
+        A voice controlled productivity app that helps you organise goal hierarchies, set time quotas for regular tasks, manage their scheduling, and track and reward you for time spent accomplishing things.<br>
+        <p> <i>Currently under development.</i>
+
+    </section>
+
+    <hr>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>Want to collaborate or test our early builds?<br>Email us at <a href="mailto:hello@enlightenedapps.dev">hello@enlightenedapps.dev</a>.</p>
+    </section>
+
+  </main>
+    
+    <div class="pillar"></div>
+
+  </div>
 
   <footer>
-    <p>👾 <a href="https://enlightenedapps.dev" target="_blank">Enlightened Apps</a> — Code that *gets* you.</p>
+    <img src="images/voxsystemslogo.png" class="logo-footer">
   </footer>
 
 </body>
