@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoxPlan - Power Through Your Goals</title>
+    <style>
+        /* VoxPlan Terminal Theme - Extracted from actual app colors */
+        :root {
+            /* Core VoxPlan Colors (from Colors.kt) */
+            --color-bg-dark: #0F0A2C;           /* PrimaryColor - terminal background */
+            --color-primary-dark: #009688;       /* Primary teal */
+            --color-primary-light: #82BD85;      /* Light green */
+            --color-secondary: #C7E2C9;          /* Pale green */
+            --color-tertiary: #82babd;           /* Teal variant */
+            --color-event: #41c300;              /* Neon green */
+
+            /* Medal/Gamification Colors */
+            --color-gold: #FFC107;               /* QuotaCompleteBackgroundColor */
+            --color-gold-border: #FF9800;        /* Medal border */
+            --color-orange: #FF5722;             /* Progress/POWER text */
+
+            /* UI Colors */
+            --color-toolbar: #fff2df;            /* Warm cream */
+            --color-toolbar-border: #ffddb0;     /* Gold cream */
+            --color-titlebar: #F8B758;           /* Rich gold */
+
+            /* Text */
+            --color-text-light: #FFFFFF;
+            --color-text-dark: #0F0A2C;
+            --color-text-neon: #41c300;
+
+            /* Spacing (8px grid) */
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --spacing-2xl: 64px;
+            --spacing-3xl: 96px;
+
+            /* Typography */
+            --font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+            --font-family-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+            /* Animation */
+            --animate-duration: 600ms;
+            --glow-duration: 2s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-ui);
+            font-size: 18px;
+            line-height: 1.6;
+            background: var(--color-bg-dark);
+            color: var(--color-text-light);
+            overflow-x: hidden;
+        }
+
+        /* Terminal Grid Background Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(65, 195, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(65, 195, 0, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Neon Glow Utility */
+        .neon-text {
+            color: var(--color-event);
+            text-shadow:
+                0 0 10px rgba(65, 195, 0, 0.8),
+                0 0 20px rgba(65, 195, 0, 0.5),
+                0 0 30px rgba(65, 195, 0, 0.3);
+        }
+
+        .neon-border {
+            border: 2px solid var(--color-event);
+            box-shadow:
+                0 0 10px rgba(65, 195, 0, 0.5),
+                inset 0 0 10px rgba(65, 195, 0, 0.2);
+        }
+
+        .gold-glow {
+            box-shadow:
+                0 0 20px rgba(255, 193, 7, 0.6),
+                0 0 40px rgba(255, 193, 7, 0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+            position: relative;
+            z-index: 1;
+        }
+
+        .features .container {
+            max-width: 1500px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated Background Elements */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(65, 195, 0, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse var(--glow-duration) ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3xl);
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        /* Terminal-style Icon */
+        .app-icon {
+            width: 140px;
+            height: 140px;
+            background: transparent;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            overflow: visible;
+        }
+
+        .app-icon::before {
+            display: none;
+        }
+
+        @keyframes rotate-border {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .app-icon svg {
+            width: 100px;
+            height: 100px;
+            filter: drop-shadow(0 0 10px rgba(65, 195, 0, 0.5));
+        }
+
+        /* Terminal Typography */
+        h1 {
+            font-family: var(--font-family);
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: var(--spacing-md);
+            background: linear-gradient(135deg, var(--color-text-light) 0%, var(--color-primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp var(--animate-duration) ease-out;
+        }
+
+        .terminal-prompt {
+            color: var(--color-event);
+            font-family: var(--font-family);
+        }
+
+        .subtitle {
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: var(--spacing-xl);
+            color: var(--color-secondary);
+            animation: fadeInUp var(--animate-duration) ease-out 0.1s both;
+        }
+
+        .power-text {
+            color: var(--color-orange);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .brand-term {
+            color: var(--color-orange);
+            font-weight: 600;
+        }
+
+        /* CTA Buttons */
+        .cta-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            animation: fadeInUp var(--animate-duration) ease-out 0.2s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 18px 36px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-border) 100%);
+            color: var(--color-text-dark);
+            box-shadow:
+                0 4px 15px rgba(255, 193, 7, 0.3),
+                0 0 30px rgba(255, 193, 7, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 6px 20px rgba(255, 193, 7, 0.4),
+                0 0 40px rgba(255, 193, 7, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-event);
+            border-color: var(--color-event);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(65, 195, 0, 0.1);
+            box-shadow: 0 0 20px rgba(65, 195, 0, 0.3);
+        }
+
+        /* Phone Mockup - Using Pre-made Image */
+        .phone-mockup {
+            flex: 0 0 380px;
+            animation: fadeInRight var(--animate-duration) ease-out 0.3s both;
+        }
+
+        .phone-mockup img {
+            transition: transform 0.3s ease;
+        }
+
+        .phone-mockup img:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        /* Features Section */
+        .features {
+            padding: var(--spacing-3xl) 0;
+            background: linear-gradient(180deg, var(--color-bg-dark) 0%, #1a1545 100%);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .section-title {
+            font-family: var(--font-family);
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            background: linear-gradient(135deg, var(--color-event) 0%, var(--color-primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 22px;
+            color: var(--color-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-xl);
+        }
+
+        .feature-card {
+            background: rgba(15, 10, 44, 0.6);
+            padding: var(--spacing-xl);
+            border-radius: 16px;
+            border: 1px solid rgba(65, 195, 0, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-event), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--color-event);
+            box-shadow: 0 8px 32px rgba(65, 195, 0, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto var(--spacing-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-event);
+            filter: drop-shadow(0 0 10px rgba(65, 195, 0, 0.5));
+        }
+
+        .feature-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .feature-title {
+            font-family: var(--font-family);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-event);
+            margin-bottom: var(--spacing-sm);
+            text-align: center;
+        }
+
+        .feature-description {
+            font-size: 18px;
+            color: var(--color-secondary);
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .feature-description p {
+            font-family: inherit;
+            font-size: inherit;
+            color: inherit;
+            margin: 0;
+        }
+
+        /* How It Works - Terminal Command Style */
+        .how-it-works {
+            padding: var(--spacing-3xl) 0;
+            background: var(--color-bg-dark);
+        }
+
+        .command-grid {
+            display: grid;
+            gap: var(--spacing-md);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .command-card {
+            background: rgba(26, 21, 69, 0.4);
+            border: 1px solid rgba(65, 195, 0, 0.3);
+            border-radius: 12px;
+            padding: var(--spacing-lg);
+            font-family: var(--font-family);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .command-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--color-event);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .command-card:hover::before {
+            opacity: 1;
+        }
+
+        .command-prompt {
+            color: var(--color-event);
+            font-size: 18px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .command-line {
+            color: var(--color-text-light);
+            font-size: 18px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .command-output {
+            color: var(--color-primary-light);
+            font-size: 14px;
+            opacity: 0.8;
+            padding-left: var(--spacing-md);
+        }
+
+        /* Download Section - Power Mode */
+        .download {
+            padding: var(--spacing-3xl) 0;
+            background: linear-gradient(135deg, #1a1545 0%, var(--color-bg-dark) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download::before {
+            content: 'POWER MODE';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 200px;
+            font-weight: 900;
+            font-family: var(--font-family);
+            color: rgba(65, 195, 0, 0.03);
+            letter-spacing: 0.2em;
+            pointer-events: none;
+        }
+
+        .download-title {
+            font-family: var(--font-family);
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            position: relative;
+            z-index: 1;
+        }
+
+        .download-subtitle {
+            font-size: 24px;
+            color: var(--color-secondary);
+            margin-bottom: var(--spacing-xl);
+            position: relative;
+            z-index: 1;
+        }
+
+        .download-btn {
+            font-size: 22px;
+            padding: 24px 56px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .feature-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 992px) {
+            h1 { font-size: 56px; }
+            .subtitle { font-size: 22px; }
+            .hero-content { flex-direction: column; gap: var(--spacing-2xl); }
+            .phone-mockup { flex: 0 0 auto; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 42px; }
+            .subtitle { font-size: 18px; }
+            .phone-mockup { display: none; }
+            .cta-buttons { flex-direction: column; width: 100%; }
+            .btn { width: 100%; justify-content: center; }
+            .download-title { font-size: 36px; }
+            .section-title { font-size: 32px; }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="app-icon">
+                        <!-- VoxPlan Real Icon -->
+                        <img src="vp_icon_transparent.png" alt="VoxPlan Icon" style="width: 100px; height: 100px;">
+                    </div>
+                    <h1><span style="background: linear-gradient(135deg, var(--color-event) 0%, var(--color-primary-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">&gt; VoxPlan</span></h1>
+                    <p class="subtitle" style="margin-bottom: var(--spacing-md);"><span class="brand-term">VoxPlan</span> is an old-school, no nonsense task management and time-tracking app for Android.<br/><br/>Keep track of the regular habits that lead to achieving your goals.</p>
+                    <div style="background: rgba(26, 21, 69, 0.4); border: 1px solid rgba(65, 195, 0, 0.3); border-radius: 12px; padding: var(--spacing-md); margin-bottom: var(--spacing-lg); font-family: var(--font-family);">
+                        <div style="color: var(--color-text-light); font-size: 20px; line-height: 1.8;">
+                            <div><span style="color: var(--color-text-light);">&gt;</span> <span style="color: var(--color-event);">Work the Process</span></div>
+                            <div><span style="color: var(--color-text-light);">&gt;</span> <span style="color: var(--color-event);">Focus on one thing at once</span></div>
+                            <div><span style="color: var(--color-text-light);">&gt;</span> <span style="color: var(--color-event);">Measure consistency</span></div>
+                            <div><span style="color: var(--color-text-light);">&gt;</span> <span style="color: var(--color-event);">Achieve goals</span></div>
+                        </div>
+                    </div>
+                    <div class="cta-buttons" style="margin-bottom: var(--spacing-2xl);">
+                        <a href="#" class="btn btn-primary">🏅 Download APK</a>
+                        <a href="voxplan-docs.html" class="btn btn-secondary">📖 User Guide</a>
+                        <a href="https://github.com/richardmthompson/VoxPlanApp" target="_blank" class="btn btn-secondary">&lt;/&gt; View on GitHub</a>
+                    </div>
+                    <p style="font-size: 16px; color: var(--color-secondary); text-align: left; margin-bottom: var(--spacing-sm);">VoxPlan is free as in beer and is also Open Source.</p>
+                    <p style="font-size: 16px; color: var(--color-secondary); text-align: left; margin-bottom: var(--spacing-sm);">If you use it, and like it, or don't like it, let me know! :)</p>
+                    <div style="display: flex; gap: var(--spacing-md); align-items: center;">
+                        <a href="https://x.com/Richardmthompsn" target="_blank" style="display: inline-block; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="var(--color-event)">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/richardthompsoncognitivescientist/" target="_blank" style="display: inline-block; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="var(--color-event)">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="phone-mockup">
+                    <!-- VoxPlan Demo Video -->
+                    <div style="position: relative; width: 315px; height: 560px; border-radius: 32px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);">
+                        <iframe
+                            width="315"
+                            height="560"
+                            src="https://www.youtube.com/embed/9UXYRByJa1A"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            style="border-radius: 32px;">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">&gt; system.features()</h2>
+                <p class="section-subtitle">Built for developers who think in hierarchies, track in metrics, and win with data</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 100 100" fill="currentColor">
+                            <rect x="10" y="20" width="80" height="10" rx="2"/>
+                            <rect x="20" y="40" width="70" height="8" rx="2" opacity="0.8"/>
+                            <rect x="30" y="58" width="60" height="6" rx="2" opacity="0.6"/>
+                            <rect x="40" y="74" width="50" height="4" rx="2" opacity="0.4"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">tree --depth=3</h3>
+                    <p class="feature-description">3-level goal hierarchy.<br/>Master → Sub-Goal → Todo.<br/><br/>Organised goal trees.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 100 100" fill="currentColor">
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="3"/>
+                            <path d="M50 10 L50 50 L75 75" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">quota.set(min/day)</h3>
+                    <p class="feature-description">"60min coding Mon-Fri" turns vague goals into trackable KPIs.<br/><br/>Measure what matters.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 100 100" fill="currentColor">
+                            <!-- Outer target circle -->
+                            <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="50" cy="50" r="25" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="50" cy="50" r="15" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="50" cy="50" r="5" fill="currentColor"/>
+                            <!-- Arrows pointing inward (reverse compass) -->
+                            <path d="M50 8 L50 25 M45 15 L50 8 L55 15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M92 50 L75 50 M85 45 L92 50 L85 55" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M50 92 L50 75 M45 85 L50 92 L55 85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 50 L25 50 M15 45 L8 50 L15 55" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">focus.start()</h3>
+                    <p class="feature-description">Focus mode helps you stay focused on one task at a time.<br/><br/>Optional pomodoro timer.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 100 100" fill="currentColor">
+                            <circle cx="50" cy="50" r="35"/>
+                            <text x="50" y="65" text-anchor="middle" font-size="40" fill="#0F0A2C">🏅</text>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">medal.earn(30min)</h3>
+                    <p class="feature-description">Every 30 minutes of deep work = 1 gold medal.<br/><br/>Gamified dopamine hits for sustained focus.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works - Terminal Commands -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">&gt; voxplan.workflow()</h2>
+                <p class="section-subtitle">Three workflows that transform chaos into controlled execution</p>
+            </div>
+            <div class="command-grid">
+                <div class="command-card">
+                    <div class="command-prompt">user@voxplan:~$</div>
+                    <div class="command-line">goal.create("Learn Guitar") --depth=3</div>
+                    <div class="command-output">
+                        ✓ Created: Learn Guitar<br/>
+                        &nbsp;&nbsp;└─ Master Chords<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Practice F Chord Daily
+                    </div>
+                </div>
+                <div class="command-card">
+                    <div class="command-prompt">user@voxplan:~$</div>
+                    <div class="command-line">quota.set --min=60 --days="Mon,Wed,Fri"</div>
+                    <div class="command-output">
+                        ✓ Quota configured: 60min/day<br/>
+                        ✓ Schedule: Monday, Wednesday, Friday
+                    </div>
+                </div>
+                <div class="command-card">
+                    <div class="command-prompt">user@voxplan:~$</div>
+                    <div class="command-line">focus.start() --mode=POWER</div>
+                    <div class="command-output">
+                        > Timer started<br/>
+                        > Distractions blocked<br/>
+                        > Medal countdown: T-30:00
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download">
+        <div class="container">
+            <h2 class="download-title neon-text">&gt; ACTIVATE POWER MODE</h2>
+            <p class="download-subtitle">Join the focused. Download <span class="brand-term">VoxPlan</span> and turn goals into gold.</p>
+            <a href="#" class="btn btn-primary download-btn">🏅 Download Free APK</a>
+        </div>
+    </section>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = `fadeInUp 600ms ease-out both`;
+                }
+            });
+        }, observerOptions);
+
+        // Observe feature cards and command cards
+        document.querySelectorAll('.feature-card, .command-card').forEach((el, index) => {
+            el.style.animationDelay = `${index * 0.1}s`;
+            observer.observe(el);
+        });
+
+        // Typing effect for terminal prompt (optional enhancement)
+        const terminalPrompts = document.querySelectorAll('.command-line');
+        terminalPrompts.forEach((prompt, index) => {
+            const text = prompt.textContent;
+            prompt.textContent = '';
+            let i = 0;
+
+            setTimeout(() => {
+                const typeWriter = setInterval(() => {
+                    if (i < text.length) {
+                        prompt.textContent += text.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(typeWriter);
+                    }
+                }, 30);
+            }, 1000 + (index * 1500)); // Stagger each prompt
+        });
+    </script>
+</body>
+</html>

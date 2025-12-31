@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoxPlan User Guide - Documentation</title>
+    <style>
+        /* VoxPlan Terminal Theme - Extracted from actual app colors */
+        :root {
+            /* Core VoxPlan Colors (from Colors.kt) */
+            --color-bg-dark: #0F0A2C;           /* PrimaryColor - terminal background */
+            --color-primary-dark: #009688;       /* Primary teal */
+            --color-primary-light: #82BD85;      /* Light green */
+            --color-secondary: #C7E2C9;          /* Pale green */
+            --color-tertiary: #82babd;           /* Teal variant */
+            --color-event: #41c300;              /* Neon green */
+
+            /* Medal/Gamification Colors */
+            --color-gold: #FFC107;               /* QuotaCompleteBackgroundColor */
+            --color-gold-border: #FF9800;        /* Medal border */
+            --color-orange: #FF5722;             /* Progress/POWER text */
+
+            /* UI Colors */
+            --color-toolbar: #fff2df;            /* Warm cream */
+            --color-toolbar-border: #ffddb0;     /* Gold cream */
+            --color-titlebar: #F8B758;           /* Rich gold */
+
+            /* Text */
+            --color-text-light: #FFFFFF;
+            --color-text-dark: #0F0A2C;
+            --color-text-neon: #41c300;
+
+            /* Spacing (8px grid) */
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --spacing-2xl: 64px;
+
+            /* Typography */
+            --font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+            --font-family-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-ui);
+            font-size: 16px;
+            line-height: 1.7;
+            background: var(--color-bg-dark);
+            color: var(--color-text-light);
+            overflow-x: hidden;
+        }
+
+        /* Terminal Grid Background Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(65, 195, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(65, 195, 0, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 2px solid var(--color-event);
+        }
+
+        h1 {
+            font-family: var(--font-family);
+            font-size: 3em;
+            color: var(--color-event);
+            text-shadow:
+                0 0 10px rgba(65, 195, 0, 0.8),
+                0 0 20px rgba(65, 195, 0, 0.5);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .tagline {
+            font-size: 1.2em;
+            color: var(--color-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(0, 150, 136, 0.1);
+            border: 2px solid var(--color-primary-dark);
+            border-radius: 8px;
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        nav h3 {
+            font-family: var(--font-family);
+            color: var(--color-primary-light);
+            margin-bottom: var(--spacing-sm);
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-xs);
+        }
+
+        nav a {
+            color: var(--color-text-light);
+            text-decoration: none;
+            padding: 8px 12px;
+            display: block;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        nav a:hover {
+            background: rgba(65, 195, 0, 0.2);
+            color: var(--color-event);
+            transform: translateX(5px);
+        }
+
+        /* Content Sections */
+        section {
+            margin-bottom: var(--spacing-2xl);
+            scroll-margin-top: 80px;
+        }
+
+        h2 {
+            font-family: var(--font-family);
+            font-size: 2em;
+            color: var(--color-gold);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--color-primary-dark);
+        }
+
+        h3 {
+            font-size: 1.5em;
+            color: var(--color-primary-light);
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        p {
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-secondary);
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-left: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            color: var(--color-secondary);
+        }
+
+        li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        /* Code and Preformatted Text */
+        code {
+            font-family: var(--font-family);
+            background: rgba(65, 195, 0, 0.1);
+            color: var(--color-event);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            font-family: var(--font-family);
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--color-primary-dark);
+            border-radius: 8px;
+            padding: var(--spacing-md);
+            overflow-x: auto;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-event);
+            line-height: 1.5;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: var(--spacing-md);
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--color-primary-dark);
+        }
+
+        th {
+            background: rgba(0, 150, 136, 0.2);
+            color: var(--color-gold);
+            font-weight: 600;
+        }
+
+        td {
+            color: var(--color-secondary);
+        }
+
+        tr:hover {
+            background: rgba(65, 195, 0, 0.05);
+        }
+
+        /* Emphasis */
+        strong {
+            color: var(--color-gold);
+            font-weight: 600;
+        }
+
+        em {
+            color: var(--color-primary-light);
+            font-style: italic;
+        }
+
+        /* Highlight Boxes */
+        .note {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid var(--color-gold);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            border-radius: 4px;
+        }
+
+        .note strong {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        /* Screenshot Images */
+        .screenshot {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid var(--color-primary-dark);
+            border-radius: 12px;
+            margin: var(--spacing-lg) auto;
+            display: block;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .screenshot-container {
+            text-align: center;
+            margin: var(--spacing-lg) 0;
+        }
+
+        .screenshot-caption {
+            color: var(--color-tertiary);
+            font-size: 0.9em;
+            font-style: italic;
+            margin-top: var(--spacing-sm);
+        }
+
+        /* Mobile screenshots should be smaller */
+        .screenshot.mobile {
+            max-width: 400px;
+        }
+
+        /* Quick Reference Cards */
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .reference-card {
+            background: rgba(0, 150, 136, 0.1);
+            border: 2px solid var(--color-primary-dark);
+            border-radius: 8px;
+            padding: var(--spacing-md);
+        }
+
+        .reference-card h4 {
+            color: var(--color-event);
+            font-family: var(--font-family);
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.1em;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: var(--spacing-xl) 0;
+            border-top: 2px solid var(--color-event);
+            margin-top: var(--spacing-2xl);
+        }
+
+        footer a {
+            color: var(--color-event);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            nav ul {
+                grid-template-columns: 1fr;
+            }
+
+            .reference-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--color-event);
+            color: var(--color-bg-dark);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5em;
+            box-shadow: 0 0 20px rgba(65, 195, 0, 0.6);
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(65, 195, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>VoxPlan User Guide</h1>
+            <p class="tagline">Break down ambitious goals into actionable tasks, set daily time commitments, and stay focused with gamified rewards</p>
+        </header>
+
+        <nav>
+            <h3>⚡ Quick Navigation</h3>
+            <ul>
+                <li><a href="#getting-started">Getting Started</a></li>
+                <li><a href="#goals-screen">Goals Screen</a></li>
+                <li><a href="#quotas">Setting Quotas</a></li>
+                <li><a href="#focus-mode">Focus Mode</a></li>
+                <li><a href="#progress-screen">Progress Screen</a></li>
+                <li><a href="#tips">Tips & Workflows</a></li>
+                <li><a href="#quick-reference">Quick Reference</a></li>
+            </ul>
+        </nav>
+
+        <section id="getting-started">
+            <h2>Getting Started</h2>
+            <p>VoxPlan works in a simple cycle:</p>
+            <ol>
+                <li><strong>Goals</strong> — Create and organize what you want to achieve</li>
+                <li><strong>Quotas</strong> — Set how much time you'll commit each day</li>
+                <li><strong>Focus</strong> — Work in timed sessions, earn medals</li>
+                <li><strong>Progress</strong> — Track your weekly achievements</li>
+            </ol>
+            <p>The app has two main screens accessible from the bottom navigation: <strong>Goals</strong> and <strong>Progress</strong>.</p>
+        </section>
+
+        <section id="goals-screen">
+            <h2>Goals Screen</h2>
+            <p>The Goals screen is your home base for organizing everything you want to accomplish.</p>
+
+            <h3>Creating a Goal</h3>
+            <ol>
+                <li>Tap the text input bar at the bottom of the screen</li>
+                <li>Type your goal title</li>
+                <li>Tap the add button</li>
+            </ol>
+            <p>Your goal appears in the list, ready to work on.</p>
+
+            <h3>Organizing with Hierarchy</h3>
+            <p>Goals can be nested up to 3 levels deep:</p>
+            <pre>Learn Guitar (Level 1)
+├── Master Chord Progressions (Level 2)
+│   ├── Practice G-C-D progression (Level 3)
+│   └── Learn F chord fingering (Level 3)
+└── Learn to Read Tablature (Level 2)</pre>
+
+            <p><strong>To view subgoals:</strong> Tap the expand arrow on any goal with children.</p>
+            <p><strong>To navigate into a goal:</strong> Tap the list icon to drill down. A breadcrumb trail appears at the top showing your path back.</p>
+            <p><strong>To return:</strong> Tap any breadcrumb to jump back up the hierarchy.</p>
+
+            <div class="screenshot-container">
+                <img src="../assets/screenshots/screenshot-goal-hierarchy.png" alt="Goal hierarchy example showing 3-level nesting" class="screenshot mobile">
+                <p class="screenshot-caption">Example of a 3-level goal hierarchy with expanded subgoals</p>
+            </div>
+
+            <h3>Reordering Goals</h3>
+            <p>Use the four arrow buttons in the toolbar:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Button</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>↑</td>
+                        <td>Move goal up in list</td>
+                    </tr>
+                    <tr>
+                        <td>↓</td>
+                        <td>Move goal down in list</td>
+                    </tr>
+                    <tr>
+                        <td>←</td>
+                        <td>Promote to parent level</td>
+                    </tr>
+                    <tr>
+                        <td>→</td>
+                        <td>Demote to child of goal above</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>How to reorder:</strong></p>
+            <ol>
+                <li>Tap an arrow button (it highlights)</li>
+                <li>Tap the goal you want to move</li>
+                <li>The goal moves according to your selection</li>
+            </ol>
+
+            <div class="screenshot-container">
+                <img src="../assets/screenshots/screenshot-reorder-controls.png" alt="Reordering controls showing arrow buttons" class="screenshot mobile">
+                <p class="screenshot-caption">Arrow buttons in the toolbar for reordering goals</p>
+            </div>
+
+            <h3>Editing a Goal</h3>
+            <ol>
+                <li>Tap a goal to reveal the action menu</li>
+                <li>Tap the edit icon (pencil)</li>
+                <li>Modify the title, add a quota, or adjust settings</li>
+                <li>Save your changes</li>
+            </ol>
+
+            <h3>Deleting a Goal</h3>
+            <ol>
+                <li>Tap a goal to reveal the action menu</li>
+                <li>Tap the delete icon (trash)</li>
+                <li>Confirm deletion</li>
+            </ol>
+            <div class="note">
+                <strong>Note:</strong> Deleting a goal also removes all its subgoals.
+            </div>
+        </section>
+
+        <section id="quotas">
+            <h2>Setting Quotas</h2>
+            <p>Quotas define how much time you commit to spending on a goal each day. They're the bridge between "I want to do this" and "I'm actually doing this."</p>
+
+            <h3>Adding a Quota</h3>
+            <ol>
+                <li>Tap a goal to edit it</li>
+                <li>Find the Quota section</li>
+                <li>Set your <strong>daily minutes</strong> (e.g., 60 minutes)</li>
+                <li>Select <strong>active days</strong> (e.g., Monday through Friday)</li>
+                <li>Save</li>
+            </ol>
+
+            <h3>Active Days Pattern</h3>
+            <p>Choose which days your quota applies:</p>
+            <ul>
+                <li><strong>Weekdays:</strong> Mon-Fri (common for work/study goals)</li>
+                <li><strong>Weekends:</strong> Sat-Sun (hobbies, personal projects)</li>
+                <li><strong>Every day:</strong> All seven days</li>
+                <li><strong>Custom:</strong> Any combination you need</li>
+            </ul>
+
+            <h3>How Quotas Help</h3>
+            <ul>
+                <li>Goals with quotas appear in the Progress screen</li>
+                <li>You can see at a glance whether you're meeting your commitments</li>
+                <li>Quotas give structure without rigidity—they're targets, not chains</li>
+            </ul>
+        </section>
+
+        <section id="focus-mode">
+            <h2>Focus Mode</h2>
+            <p>Focus Mode transforms your phone into a dedicated work timer with gamified rewards.</p>
+
+            <h3>Entering Focus Mode</h3>
+            <p>Tap the <strong>stream icon</strong> on any goal or subgoal. This launches Focus Mode with that goal selected.</p>
+
+            <div class="screenshot-container">
+                <img src="../assets/screenshots/screenshot-focus-mode.png" alt="Focus Mode interface with timer and controls" class="screenshot mobile">
+                <p class="screenshot-caption">Focus Mode showing active timer and medal progress</p>
+            </div>
+
+            <h3>Timer Controls</h3>
+            <ul>
+                <li><strong>Start:</strong> Begin your focus session</li>
+                <li><strong>Pause:</strong> Temporarily stop (preserves your progress)</li>
+                <li><strong>Stop:</strong> End the session</li>
+            </ul>
+
+            <h3>Earning Medals</h3>
+            <p>You earn a <strong>medal</strong> for every 30 minutes of focused work:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Reward</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>30 min</td>
+                        <td>1 medal</td>
+                    </tr>
+                    <tr>
+                        <td>60 min</td>
+                        <td>2 medals</td>
+                    </tr>
+                    <tr>
+                        <td>90 min</td>
+                        <td>3 medals</td>
+                    </tr>
+                    <tr>
+                        <td>...</td>
+                        <td>...</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Earning Crystals</h3>
+            <p>Achieve a <strong>crystal</strong> when you log 4 or more hours of focus in a single day. Crystals represent exceptional dedication.</p>
+
+            <h3>The Power Bar</h3>
+            <p>The power bar at the top of the Goals screen shows your daily progress:</p>
+            <ul>
+                <li>Each bar segment = 60 minutes of work</li>
+                <li>Fill 4 bars = earn a diamond (displayed below "POWER:")</li>
+                <li>The gold coin shows remaining minutes toward the next bar</li>
+            </ul>
+
+            <div class="screenshot-container">
+                <img src="../assets/screenshots/screenshot-power-bar.png" alt="Power bar showing daily progress" class="screenshot mobile">
+                <p class="screenshot-caption">Power bar displaying filled segments and progress toward next bar</p>
+            </div>
+
+            <h3>Banking Your Time</h3>
+            <p>After a focus session:</p>
+            <ol>
+                <li>Review your earned time and medals</li>
+                <li>Tap <strong>Bank Time</strong> to save your progress</li>
+                <li>Your time is recorded against that goal for today</li>
+            </ol>
+            <p>Banked time appears in the Progress screen and counts toward your quota.</p>
+        </section>
+
+        <section id="progress-screen">
+            <h2>Progress Screen</h2>
+            <p>The Progress screen shows your weekly achievements at a glance.</p>
+
+            <h3>Weekly View</h3>
+            <p>Each day of the week shows:</p>
+            <ul>
+                <li>Which goals you worked on</li>
+                <li>How much time you logged</li>
+                <li>Whether you met your quota</li>
+            </ul>
+
+            <div class="screenshot-container">
+                <img src="../assets/screenshots/screenshot-progress-weekly.png" alt="Progress screen showing weekly quota tracking" class="screenshot mobile">
+                <p class="screenshot-caption">Weekly progress view with quota indicators and achievements</p>
+            </div>
+
+            <h3>Reading the Indicators</h3>
+            <p><strong>Stars</strong> represent full hours of quota:</p>
+            <ul>
+                <li>Gold star = hour achieved</li>
+                <li>Grey star = hour not yet achieved</li>
+            </ul>
+
+            <p><strong>Circles</strong> represent half-hours (for quotas like 30, 90, 150 minutes):</p>
+            <ul>
+                <li>Gold circle = half-hour achieved</li>
+                <li>Grey circle = half-hour not yet achieved</li>
+            </ul>
+
+            <p><strong>Purple indicators</strong> show overachievement:</p>
+            <ul>
+                <li>Purple star = extra hour beyond quota</li>
+                <li>Purple circle = extra half-hour beyond quota</li>
+            </ul>
+
+            <h3>Example</h3>
+            <p>A goal with a 90-minute quota shows: ★ ● (1 star + 1 circle)</p>
+            <p>If you worked 2 hours: ★ ● ★ (gold star, gold circle, purple star for the extra 30 min)</p>
+
+            <h3>Navigating Weeks</h3>
+            <p>Use the arrow buttons next to the date range to view previous or upcoming weeks.</p>
+
+            <h3>Actual Time Display</h3>
+            <p>Each goal row shows the actual time logged in hours and minutes (e.g., "1h 30m"), giving you precise tracking beyond the visual indicators.</p>
+        </section>
+
+        <section id="tips">
+            <h2>Tips & Workflows</h2>
+
+            <h3>Suggested Daily Workflow</h3>
+            <ol>
+                <li><strong>Morning:</strong> Review your goals and quotas</li>
+                <li><strong>Work sessions:</strong> Enter Focus Mode, work in 30+ minute blocks</li>
+                <li><strong>Bank time:</strong> After each session, bank your progress</li>
+                <li><strong>Evening:</strong> Check Progress screen to see your day's achievements</li>
+            </ol>
+
+            <h3>Best Practices for Goal Hierarchy</h3>
+            <ul>
+                <li><strong>Level 1:</strong> Big-picture goals (Learn Guitar, Get Fit, Build App)</li>
+                <li><strong>Level 2:</strong> Major milestones or categories</li>
+                <li><strong>Level 3:</strong> Specific, actionable tasks</li>
+            </ul>
+            <p>Keep it simple. If you need more than 3 levels, your Level 1 goal might be too broad—consider splitting it.</p>
+
+            <h3>Quota Tips</h3>
+            <ul>
+                <li><strong>Start small:</strong> 30 minutes daily is better than 2 hours you'll never do</li>
+                <li><strong>Be realistic about active days:</strong> Don't set 7 days if you know weekends are busy</li>
+                <li><strong>Adjust as needed:</strong> Quotas aren't permanent—tune them based on what works</li>
+            </ul>
+
+            <h3>Focus Mode Tips</h3>
+            <ul>
+                <li><strong>Minimize distractions:</strong> Close other apps, silence notifications</li>
+                <li><strong>Commit to 30 minutes:</strong> The first medal is the hardest—push through</li>
+                <li><strong>Take breaks:</strong> After banking time, step away before the next session</li>
+                <li><strong>Celebrate crystals:</strong> 4+ hours in a day is a real achievement</li>
+            </ul>
+        </section>
+
+        <section id="quick-reference">
+            <h2>Quick Reference</h2>
+
+            <div class="reference-grid">
+                <div class="reference-card">
+                    <h4>Screens</h4>
+                    <table>
+                        <tr>
+                            <td><strong>Goals</strong></td>
+                            <td>Create, organize, manage</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Progress</strong></td>
+                            <td>Track weekly achievements</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="reference-card">
+                    <h4>Icons</h4>
+                    <table>
+                        <tr>
+                            <td><strong>Stream (⊳)</strong></td>
+                            <td>Enter Focus Mode</td>
+                        </tr>
+                        <tr>
+                            <td><strong>List</strong></td>
+                            <td>View subgoals</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Expand/Collapse</strong></td>
+                            <td>Show/hide nested goals</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Arrows</strong></td>
+                            <td>Reorder goals</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="reference-card">
+                    <h4>Rewards</h4>
+                    <table>
+                        <tr>
+                            <td><strong>Medal</strong></td>
+                            <td>30 minutes of focus</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Crystal</strong></td>
+                            <td>4+ hours in one day</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Need help? <a href="https://github.com/yourusername/VoxPlanApp/issues" target="_blank">Report issues or request features on GitHub</a></p>
+            <p style="margin-top: 16px; color: var(--color-event);">Happy focusing! ⚡</p>
+        </footer>
+    </div>
+
+    <a href="#" class="back-to-top" id="backToTop">↑</a>
+
+    <script>
+        // Back to top button functionality
+        const backToTop = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
